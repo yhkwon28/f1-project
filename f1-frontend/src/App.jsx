@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import CircuitSlider from "./components/Circuitslider";
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -17,6 +18,7 @@ function App() {
 
   return (
     <>
+      <CircuitSlider />
       <section id='f1-data'>
         <h2>오늘의 드라이버</h2>
         <p>{driver}</p>
