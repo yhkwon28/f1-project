@@ -25,7 +25,7 @@ F1은 룰과 용어가 복잡해서 입문 장벽이 높은 스포츠입니다. 
 
 ## 시작하기
 
-\`\`\`bash
+```bash
 # 저장소 클론
 git clone https://github.com/yhkwon28/f1-project.git
 cd f1-project/f1-frontend
@@ -35,13 +35,13 @@ npm install
 
 # 개발 서버 실행
 npm run dev
-\`\`\`
+```
 
 브라우저에서 `http://localhost:5173` 접속
 
 ## 폴더 구조
 
-\`\`\`
+```
 f1-frontend/
 ├── public/
 │   └── drivers/         # 드라이버 프로필 이미지 (기본/대체 이미지)
@@ -61,7 +61,7 @@ f1-frontend/
 │   │   └── Glossary.jsx
 │   ├── App.jsx
 │   └── main.jsx
-\`\`\`
+```
 
 ## 데이터 출처 및 이미지 관련
 
