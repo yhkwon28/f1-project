@@ -1,9 +1,9 @@
-import {useEffect, useState} from 'react';
-import {useParams, Link} from 'react-router-dom';
-import {getDriverPhoto} from '../api/wikipedia';
+import { useEffect, useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
+import { getDriverPhoto } from '../api/wikipedia';
 
 function DriverDetail() {
-    const {driverId} = useParams();
+    const { driverId } = useParams();
     const [driver, setDriver] = useState(null);
     const [result, setResult] = useState(null);
     const [photoUrl, setPhotoUrl] = useState(null);
@@ -12,7 +12,7 @@ function DriverDetail() {
         fetch(`https://api.jolpi.ca/ergast/f1/drivers/${driverId}.json`)
             .then((res) => res.json())
             .then((data) => {
-                setDriver(data.MRData.DriverTable.Drivers[0]);
+                const d = data.MRData.DriverTable.Drivers[0];
                 setDriver(d);
                 getDriverPhoto(d.givenName, d.familyName).then(setPhotoUrl);
             });
@@ -21,7 +21,7 @@ function DriverDetail() {
             .then((res) => res.json())
             .then((data) => {
                 setResult(data.MRData.RaceTable.Races);
-            }, [driverId]);
+            });
     }, [driverId]);
 
     if (!driver || !result) return <div>불러오는 중...</div>;
@@ -37,8 +37,8 @@ function DriverDetail() {
                     src={photoUrl ?? `/drivers/default.jpg`}
                     alt={`${driver.givenName} ${driver.familyName}`}
                     className="w-32 h-32 rounded-full object-cover bg-gray-200"
-                    onError={(e) => {e.target.src = '/drivers/default.jpg';}}
-                /> 
+                    onError={(e) => { e.target.src = '/drivers/default.jpg'; }}
+                />
                 <div>
                     <h1 className="text-3xl font-bold">{driver.givenName} {driver.familyName}</h1>
                     <p className="text-gray-600">{driver.nationality}</p>
@@ -46,7 +46,7 @@ function DriverDetail() {
                     {driver.permanentNumber && <p className="text-gray-600">등번호: {driver.permanentNumber}</p>}
                 </div>
             </div>
-            
+
             <h2 className="text-xl font-bold mb-3">2026 시즌 결과</h2>
             <table className="w-full border-collapse">
                 <thead>
@@ -57,7 +57,7 @@ function DriverDetail() {
                 </thead>
                 <tbody>
                     {result.map((race, i) => (
-                        <tr key={race.round} className={i % 2 === 0 ? 'bg-white': 'bg-gray-100'}>
+                        <tr key={race.round} className={i % 2 === 0 ? 'bg-white' : 'bg-gray-100'}>
                             <td className="py-2 px-4">{race.raceName}</td>
                             <td className="py-2 px-4">{race.Results[0].position}</td>
                         </tr>
