@@ -1,26 +1,30 @@
 import {useEffect, useState} from 'react';
 import {useParams, Link} from 'react-router-dom';
+import {getDriverPhoto} from '../api/wikipedia';
 
 function DriverDetail() {
     const {driverId} = useParams();
     const [driver, setDriver] = useState(null);
     const [result, setResult] = useState(null);
+    const [photoUrl, setPhotoUrl] = useState(null);
 
     useEffect(() => {
         fetch(`https://api.jolpi.ca/ergast/f1/drivers/${driverId}.json`)
             .then((res) => res.json())
             .then((data) => {
                 setDriver(data.MRData.DriverTable.Drivers[0]);
+                setDriver(d);
+                getDriverPhoto(d.givenName, d.familyName).then(setPhotoUrl);
             });
 
-        fetch(`https://api.jolpi.ca/ergast/f1/drivers/${driverId}/results.json`)
+        fetch(`https://api.jolpi.ca/ergast/f1/2026/drivers/${driverId}/results.json`)
             .then((res) => res.json())
             .then((data) => {
                 setResult(data.MRData.RaceTable.Races);
-            });
+            }, [driverId]);
     }, [driverId]);
 
-    if (!driver) return <div>불러오는 중...</div>;
+    if (!driver || !result) return <div>불러오는 중...</div>;
 
     return (
         <div className="p-6">
@@ -30,7 +34,7 @@ function DriverDetail() {
 
             <div className="flex gap-6 items-center mb-8">
                 <img
-                    src={`/drivers/${driverId}.jpg`}
+                    src={photoUrl ?? `/drivers/default.jpg`}
                     alt={`${driver.givenName} ${driver.familyName}`}
                     className="w-32 h-32 rounded-full object-cover bg-gray-200"
                     onError={(e) => {e.target.src = '/drivers/default.jpg';}}
@@ -39,7 +43,7 @@ function DriverDetail() {
                     <h1 className="text-3xl font-bold">{driver.givenName} {driver.familyName}</h1>
                     <p className="text-gray-600">{driver.nationality}</p>
                     <p className="text-gray-600">생년월일: {driver.dateOfBirth}</p>
-                    {driver.permanenetNumebr && <p className="text-gray-600">등번호: {driver.permanenetNumebr}</p>}
+                    {driver.permanentNumber && <p className="text-gray-600">등번호: {driver.permanentNumber}</p>}
                 </div>
             </div>
             
